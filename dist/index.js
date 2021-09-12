@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var VideoPreload = /** @class */ (function () {
-    function VideoPreload(_className, func) {
+var Video = /** @class */ (function () {
+    function Video(_className, func) {
         var _this = this;
         this.preload = function () {
             var video = _this.target[_this.counter];
@@ -22,6 +22,6 @@ var VideoPreload = /** @class */ (function () {
         this.func = func;
         this.preload();
     }
-    return VideoPreload;
+    return Video;
 }());
-exports.default = { VideoPreload: VideoPreload };
+exports.default = { Video: Video };

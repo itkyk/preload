@@ -1,4 +1,4 @@
-class VideoPreload{
+class Video{
     private counter: number;
     private readonly target: HTMLCollectionOf<Element>;
     private readonly func:()=>void;
@@ -24,4 +24,4 @@ class VideoPreload{
     }
 }
 
-export default {VideoPreload}
+export default {Video}

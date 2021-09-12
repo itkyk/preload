@@ -1,4 +1,4 @@
-declare class VideoPreload {
+declare class Video {
     private counter;
     private readonly target;
     private readonly func;
@@ -6,6 +6,6 @@ declare class VideoPreload {
     preload: () => void;
 }
 declare const _default: {
-    VideoPreload: typeof VideoPreload;
+    Video: typeof Video;
 };
 export default _default;
