@@ -29,7 +29,7 @@ class Image {
     private readonly filePathArray: Array<string>;
     private readonly func: ()=>{};
 
-    constructor(_fileNameArray:Array<string>, _func:()=>{}=null) {
+    constructor(_fileNameArray:Array<string>, _func:()=>{}) {
         this.counter = 0;
         this.filePathArray = _fileNameArray;
         this.func = _func;
