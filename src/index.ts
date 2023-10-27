@@ -1,11 +1,15 @@
+type PreloadCallback = (status: "complete" | "loading", loadedFiles: string[], total: number) => void;
+
 class Video{
     private counter: number;
-    private readonly target: HTMLCollectionOf<Element>;
-    private readonly func:()=>void;
-    constructor(_className:string="js-preload-video", _func:()=>void){
+    private readonly target: NodeListOf<Element>;
+    private readonly func:PreloadCallback;
+    private loadedFiles: string[];
+    constructor(attribute: string, callback: PreloadCallback){
         this.counter = 0;
-        this.target = document.getElementsByClassName(_className);
-        this.func = _func;
+        this.target = document.querySelectorAll(attribute);
+        this.func = callback;
+        this.loadedFiles = [];
         this.preload();
     }
 
@@ -13,10 +17,12 @@ class Video{
         const video = this.target[this.counter] as HTMLVideoElement;
         video.src = video.getAttribute("data-video-path") as string;
         this.target[this.counter].addEventListener("canplaythrough", () => {
+          this.loadedFiles.push(video.src);
             if (this.target.length - 1 === this.counter) {
-                this.func();
+                this.func("complete", this.loadedFiles, this.target.length);
             } else {
                 this.counter++;
+                this.func("loading", this.loadedFiles, this.target.length)
                 this.preload();
             }
         });
@@ -27,12 +33,14 @@ class Video{
 class Image {
     private counter: number;
     private readonly filePathArray: Array<string>;
-    private readonly func: ()=>{};
+    private readonly func: PreloadCallback;
+    private loadFiles: string[];
 
-    constructor(_fileNameArray:Array<string>, _func:()=>{}) {
+    constructor(filePathArray:Array<string>, callback:PreloadCallback) {
         this.counter = 0;
-        this.filePathArray = _fileNameArray;
-        this.func = _func;
+        this.filePathArray = filePathArray;
+        this.func = callback;
+        this.loadFiles = [];
         this.preload();
     }
 
@@ -40,17 +48,17 @@ class Image {
         const image = document.createElement("img") as HTMLImageElement;
         image.src = this.filePathArray[this.counter];
         image.onload = () => {
+            this.loadFiles.push(this.filePathArray[this.counter]);
             this.counter++;
             if (this.filePathArray.length !== this.counter) {
+              this.func("loading", this.loadFiles, this.filePathArray.length);
                 this.preload();
             } else {
                 this.counter = 0;
-                if (this.func) {
-                    this.func();
-                }
+                this.func("complete", this.loadFiles, this.filePathArray.length);
             }
         }
     }
 }
 
-export default {Video, Image};
+export {Video, Image};

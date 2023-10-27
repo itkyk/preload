@@ -1,19 +1,18 @@
+declare type PreloadCallback = (status: "complete" | "loading", loadedFiles: string[], total: number) => void;
 declare class Video {
     private counter;
     private readonly target;
     private readonly func;
-    constructor(_className: string | undefined, _func: () => void);
+    private loadedFiles;
+    constructor(attribute: string, callback: PreloadCallback);
     preload: () => void;
 }
 declare class Image {
     private counter;
     private readonly filePathArray;
     private readonly func;
-    constructor(_fileNameArray: Array<string>, _func: () => {});
+    private loadFiles;
+    constructor(filePathArray: Array<string>, callback: PreloadCallback);
     preload: () => void;
 }
-declare const _default: {
-    Video: typeof Video;
-    Image: typeof Image;
-};
-export default _default;
+export { Video, Image };
